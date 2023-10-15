@@ -7,18 +7,12 @@
 // and no special symbol
 public class MainEnigma {
   public static void main (String[] args) {
-    //try {
-    // Enigma enigma = new Enigma();
-    // } catch (RuntimeException e) {
-    //  System.out.println("In valid key");
-    // }
-
     Enigma enigma = new Enigma();
-
-    // String plaintext = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
-    String plaintext = "helloworld";
-    System.out.println("The plaint text: " + plaintext);
-    String sec = enigma.EnigmaEncrypt(plaintext);
+    String plainText = "helloworld";
+    System.out.println("The plaint text: " + plainText);
+    String sec = enigma.EnigmaEncrypt(plainText);
     System.out.println("The secret: " + sec);
+    String newPlainText = enigma.EnigmaEncrypt(sec);
+    System.out.println("The new plain text: " + plainText);
   }
 }
