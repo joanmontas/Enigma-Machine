@@ -3,25 +3,30 @@
 //
 // License under GNU General Public License v3.0
 
-public class PlugBoard {
-  // TODO() Implemet a constructor that receives
-  // which letter to substitute with
-  // example: a-y, s-o
-  //    the remaining letters will be unaffected
-  //    i.e
-  //    b-b, c-c, d-d...z-z (only a-y and s-o)
-  // TODO() Implement such data structure and
-  // make sure that the input is valid for the 
-  // safety of the user
-  // plugboard is just like reflector but its dynamic,
-  // the user is able to modify it.
-  public PlugBoard () {
-  }
+import java.util.HashMap;
 
-  // TODO() Given a Char "input-wire", return
-  // the corresponding output-wire/letter
-  public char plugIn(char letterWire) { 
-    return letterWire;
-  }
+public class PlugBoard {
+            private final HashMap<Character, Character> plugboardMap = new HashMap<>();
+        private static final String SCRAMBLED_ALPHABET = "ybhwcqneljmktduzvfxaopgsri";
+
+        /**
+         * Constructor to initialize the plugboard with a fixed scrambled mapping.
+         */
+        public PlugBoard() {
+                for (int i = 0; i < 26; i++) {
+                char originalChar = (char) ('a' + i);
+                char scrambledChar = SCRAMBLED_ALPHABET.charAt(i);
+                plugboardMap.put(originalChar, scrambledChar);
+                }
+        }
+
+        /**
+         * Given a Char "input-wire", return the corresponding output-wire/letter.
+         * @param letterWire input wire/letter.
+         * @return output wire/letter.
+         */
+        public char plugIn(char letterWire) {
+                return plugboardMap.get(letterWire);
+        }
 }
 
