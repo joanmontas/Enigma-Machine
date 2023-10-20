@@ -6,13 +6,19 @@
 // for all purpose, letters will be lower case
 // and no special symbol
 public class EnigmaMain {
-        public static void main (String[] args) {
-                Enigma enigma = new Enigma();
-                String plainText = "helloworld";
-                System.out.println("The plaint text: " + plainText);
-                String sec = enigma.EnigmaEncrypt(plainText);
-                System.out.println("The secret: " + sec);
-                String newPlainText = enigma.EnigmaEncrypt(sec);
-                System.out.println("The new plain text: " + newPlainText);
-        }
+    public static void main (String[] args) {
+            Enigma eng0 = new Enigma();
+            String plainText = "testing";
+  
+            System.out.println("The plaintext: " + plainText);
+  
+            String secret = eng0.encrypt(plainText);
+            System.out.println("The secret: " + secret);
+
+            Enigma eng1 = new Enigma();
+            String dec = eng1.encrypt(secret);
+
+            System.out.println("The decrypted: "  + dec);
+    }
 }
+  
