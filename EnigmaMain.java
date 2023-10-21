@@ -7,12 +7,18 @@
 // and no special symbol
 public class EnigmaMain {
         public static void main (String[] args) {
-                Enigma enigma = new Enigma();
-                String plainText = "helloworld";
-                System.out.println("The plaint text: " + plainText);
-                String sec = enigma.EnigmaEncrypt(plainText);
-                System.out.println("The secret: " + sec);
-                String newPlainText = enigma.EnigmaEncrypt(sec);
-                System.out.println("The new plain text: " + newPlainText);
+                Enigma eng0 = new Enigma();
+                String plainText = "Hello, World!";
+
+                System.out.println("The plaintext: " + plainText);
+
+                String cipherText = eng0.encrypt(plainText);
+                System.out.println("The cipherText: " + cipherText);
+
+                Enigma eng1 = new Enigma();
+                String decryption = eng1.encrypt(cipherText);
+
+                System.out.println("The decrypted: "  + decryption);
         }
 }
+  

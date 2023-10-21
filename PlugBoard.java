@@ -6,27 +6,27 @@
 import java.util.HashMap;
 
 public class PlugBoard {
-            private final HashMap<Character, Character> plugboardMap = new HashMap<>();
-        private static final String SCRAMBLED_ALPHABET = "ybhwcqneljmktduzvfxaopgsri";
+        private final HashMap<Character, Character> plugboardMap = new HashMap<>();
+        private static final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-        /**
-         * Constructor to initialize the plugboard with a fixed scrambled mapping.
-         */
+        /**Default Constructor to initialize the plugboard without any substitution
+        */
         public PlugBoard() {
-                for (int i = 0; i < 26; i++) {
-                char originalChar = (char) ('a' + i);
-                char scrambledChar = SCRAMBLED_ALPHABET.charAt(i);
-                plugboardMap.put(originalChar, scrambledChar);
+                char originalChar;
+                for (int i = 0; i < alphabet.length(); i++) {
+                        originalChar = (char) ('a' + i);
+                        plugboardMap.put(originalChar, originalChar);
                 }
         }
 
-        /**
-         * Given a Char "input-wire", return the corresponding output-wire/letter.
-         * @param letterWire input wire/letter.
-         * @return output wire/letter.
-         */
+        // TODO(JoanMontas) Andrew please make a constructor that would accept a specific
+        // rotor configuration. - Joan
+
+        /**Given a Char "input-wire", return the corresponding output-wire/letter.
+        * @param letterWire input wire/letter.
+        * @return output wire/letter.
+        */
         public char plugIn(char letterWire) {
                 return plugboardMap.get(letterWire);
         }
 }
-

@@ -4,84 +4,91 @@
 // License under GNU General Public License v3.0
 
 public class Rotor {
-        private int position;
-        private boolean shouldDoubleStep = false;
-        private Rotor leftRotor;
-        private final char[] rotorWiring;
-        private final char notch;
+        private char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        private char[] rotorWiring = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        private int alphabetLength = this.alphabet.length;
+        private char initialPosition = 'a';
+        private int position = 0;
+        private char notch = 'c';
 
-    
-        // Constructor for middle and leftmost rotors
-        public Rotor(char[] rotorWiring, int startPosition, char notch, Rotor leftRotor) {
-            this.rotorWiring = rotorWiring;
-            this.position = startPosition;
-            this.notch = notch;
-            this.leftRotor = leftRotor;
+        /** Constructor builds instance given wiring, position and notch. default alphabet assumed.
+        * @param rotorWiring wiring format of the desired rotor (ISO basic latin).
+        * @param initialPosition starting letter of the rotor.
+        * @param notch the letter/notch the rotor would rotate its neighboring rotor.
+        * @throws NumberFormatException if giving Rotor alphabet is not the size of the ISO basic latin.
+        */
+        public Rotor(char[] rotorWiring, char initialPosition, char notch) {
+                        if (rotorWiring.length != this.alphabetLength) {
+                                throw new NumberFormatException("Rotor Wiring does not match default Alphabet's length.");
+                        }
+                        this.rotorWiring = rotorWiring;
+                        this.notch = notch;
+                        this.initialPosition = initialPosition;
+                        this.position = (initialPosition - 'a') % this.alphabetLength;
         }
 
-        // Accepts rotor like IC, IIC, IIIC
-        public Rotor(String rotorType, Rotor leftRotor) {
-                switch(rotorType) {
-                        case "IC":
-                        this.rotorWiring = "DMTWSILRUYQNKFEJCAZBPGXOHV".toLowerCase().toCharArray();
-                        this.position = 6;
-                        this.notch = 'q';
-                        this.leftRotor = leftRotor;
-                        break;
-                        case "IIC":
-                        this.rotorWiring = "HQZGPJTMOBLNCIFDYAWVEUSRKX".toLowerCase().toCharArray();
-                        this.position = 23;
-                        this.notch = 'e';
-                        this.leftRotor = leftRotor;
-                        break;
-                        case "IIIC":
-                        this.rotorWiring = "UQNTLSZFMREHDPXKIBVYGJCWOA".toLowerCase().toCharArray();
-                        this.position = 11;
-                        this.notch = 'v';
-                        this.leftRotor = leftRotor;
-                        break;
-                        default:
-                        throw new IllegalArgumentException("Unknown rotor type: " + rotorType);
+        /**Given a character (in numeric representation), returns its current substitution given the setting.
+        * from rotor wiring to the alphabetic position.
+        * @param  n the wire wished to be substituted.
+        * @return The substituted character (in numeric representation).
+        */
+        public int plugIn(int n) {
+                int index = (n + this.position) % this.alphabetLength;
+                char cWire = this.rotorWiring[index];
+                for (int i = 0; i < this.alphabetLength; i++) {
+                        index = (i + this.position) % this.alphabetLength;
+                        if (this.alphabet[index] == cWire) {
+                                return i;
+                        }
                 }
+                return 0;
         }
 
-        public void setLeftRotor(Rotor leftRotor) {
-                this.leftRotor = leftRotor;
-        }           
-    
-        // Constructor for the rightmost rotor (always steps)
-        public Rotor(char[] rotorWiring, int startPosition, char notch) {
-            this(rotorWiring, startPosition, notch, null);
-        }
-
-        public char plugIn(char letterWire) {
-                char substitutedChar = rotorWiring[(letterWire - 'a' + position) % rotorWiring.length];
-                rotate();
-                return substitutedChar;
-        }
-
-        public char plugOut(char letterWire) {
-                for (int i = 0; i < rotorWiring.length; i++) {
-                    // Match the character with consideration of the rotor's current position
-                    if (rotorWiring[(i + position) % rotorWiring.length] == letterWire) {
-                        return (char) ('a' + i);
-                    }
+        /**Given a character (in numeric representation), returns its current substitution given the setting.
+        * from alphabetic position to rotor wiring.
+        * @param  n the wire wished to be substituted.
+        * @return The substituted character (in numeric representation).
+        */
+        public int plugOut(int n) {
+                int index = (n + this.position) % this.alphabetLength;
+                char cAlpha = this.alphabet[index];
+                for (int i = 0; i < this.alphabetLength; i++) {
+                        index = (i + this.position) % this.alphabetLength;
+                        if (this.rotorWiring[index] == cAlpha) {
+                                return i;
+                        }
                 }
-                return letterWire; 
+                return 0;
         }
 
-        private void rotate() {
-                if (leftRotor != null && shouldDoubleStep) {
-                    leftRotor.rotate();
-                    shouldDoubleStep = false;
-                }
-            
-                position = (position + 1) % rotorWiring.length;
-                
-                // If the rotor hits the notch and there's a left rotor, set the flag for double-stepping.
-                if (rotorWiring[position] == notch && leftRotor != null) {
-                    leftRotor.rotate();
-                    shouldDoubleStep = true;
-                }
-            }
+        /**Performs a single rotation.
+        */
+        public void rotate() {
+                this.position = (this.position + 1) % this.alphabetLength;
+        }
+
+        /**Checks if the rotation would result in meeting the notch.
+        * @return true if rotation would result in meeting the notch, otherwise, false.
+        */
+        public boolean notchMatch () {
+                return this.alphabet[(this.position + 1) % this.alphabetLength] == this.notch;
+        }
+
+        /**Debugging method, prints the current state of the rotor.
+        */
+        public void prettyPrint() {
+                        System.out.println("Rotor Wiring: " + new String(rotorWiring));
+                        System.out.println("Alphabet: " + new String(alphabet));
+                        System.out.println("Initial Position: " + initialPosition);
+                        System.out.println("Position: " + position);
+                        System.out.println("Notch: " + notch);
+                        int index = 0;
+                        for (int i = 0; i < this.alphabetLength; i++) {
+                                index = (i + this.position) % this.alphabetLength;
+                                System.out.print(i + " ");
+                                System.out.print(this.alphabet[index] + " ");
+                                System.out.println(this.rotorWiring[index]);
+                        }
+        }
 }
+	
